@@ -40,7 +40,8 @@ router.post('/login', function(req, res, next) {
     if (err) {
       next(err)
     } else if (!result) {
-      next(new Error('Wrong username or password'))
+      const e = new Error('Wrong username or password')
+      next(e)
     } else {
       req.session.user = result.username
       res.redirect('/');
@@ -52,11 +53,5 @@ router.get('/logout', isAuthenticated, function(req, res) {
   req.session.user = ''
   res.redirect('/')
 })
-
-// don't put any routes below here!
-router.use(function(err, _, res) {
-  return res.send('ERROR :  ' + err.message)
-})
-
 
 module.exports = router
